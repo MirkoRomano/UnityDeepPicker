@@ -5,38 +5,44 @@ using UnityEngine;
 
 namespace Sparkling.SceneFinder
 {
-    public interface ILazyLoadable
-    {
-        void Load();
-    }
-
-    public sealed class QueryableItem : ILazyLoadable
+    public sealed class QueryableItem : ILazyLoadable, IComparable<QueryableItem>
     {
         public UnityEngine.Object Item => m_item;
+        public Transform GoTransform => m_GoTransform;
         public UnityObjectType ObjectType => m_type;
+        public IReadOnlyList<QueryableItem> Children => m_children;
         public string Name => m_name;
         public string Tag => m_tag;
 
+        
+        private QueryableItem m_parent;
+        public bool IsRoot => m_parent == null;
+        public int SiblingIndex => m_siblingIndex;
+
         private UnityEngine.Object m_item;
+        private Transform m_GoTransform;
         private UnityObjectType m_type;
 
         private string m_name;
         private string m_tag;
+        private int m_siblingIndex;
 
         private readonly HashSet<Component> m_componentsMap;
         private readonly HashSet<string> m_componentsNameMap;
         private readonly HashSet<string> m_labelsMap;
+        private readonly List<QueryableItem> m_children;
 
         public QueryableItem()
         {
             m_componentsMap = new HashSet<Component>();
             m_componentsNameMap = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             m_labelsMap = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            m_children = new List<QueryableItem>();
         }
 
         public void Initialize(UnityEngine.Object item)
         {
-            if(item == null)
+            if (item == null)
             {
                 throw new Exception("Cannot create a quaryable item with a null object");
             }
@@ -45,15 +51,21 @@ namespace Sparkling.SceneFinder
             m_type = item.GetUnityType();
             m_name = item.name;
 
-            if(m_item is GameObject go)
+            if (m_item is GameObject go)
             {
                 m_tag = go.tag;
+                m_GoTransform = go.transform;
+                m_siblingIndex = m_GoTransform.GetSiblingIndex();
+            }
+            else
+            {
+                m_siblingIndex = 0;
             }
         }
 
         void ILazyLoadable.Load()
         {
-            if(m_type == UnityObjectType.GameObject)
+            if (m_type == UnityObjectType.GameObject)
             {
                 GameObject go = As<GameObject>();
 
@@ -83,10 +95,30 @@ namespace Sparkling.SceneFinder
             m_type = default;
             m_name = null;
             m_tag = null;
+            m_parent = null;
+
+            m_siblingIndex = 0;
 
             m_componentsMap.Clear();
             m_componentsNameMap.Clear();
             m_labelsMap.Clear();
+            m_children.Clear();
+        }
+
+        public void SetParent(QueryableItem parent)
+        {
+            m_parent = parent;
+
+            if (m_parent != null)
+            {
+                m_parent.AddChild(this);
+            }
+        }
+
+        private void AddChild(QueryableItem child)
+        {
+            m_children.Add(child);
+            m_children.Sort();
         }
 
         public T As<T>() where T : class
@@ -136,6 +168,16 @@ namespace Sparkling.SceneFinder
         public override int GetHashCode()
         {
             return m_item != null ? m_item.GetHashCode() : 0;
+        }
+
+        public int CompareTo(QueryableItem other)
+        {
+            if (other == null)
+            {
+                return 1;
+            }
+
+            return m_siblingIndex.CompareTo(other.m_siblingIndex);
         }
     }
 }

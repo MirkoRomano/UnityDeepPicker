@@ -15,6 +15,7 @@ namespace Sparkling.SceneFinder
         private static GameObject[] itemsToIgnore = new GameObject[MaxShowableCount];
         private static HashSet<QueryableItem> foundItems = new HashSet<QueryableItem>();
         private static List<RaycastResult> raycastResults = new List<RaycastResult>();
+        private static Dictionary<GameObject, QueryableItem> hierarchyMap = new Dictionary<GameObject, QueryableItem>();
 
         static SceneViewFinder()
         {
@@ -50,6 +51,8 @@ namespace Sparkling.SceneFinder
 
             foundItems.Clear();
             raycastResults.Clear();
+            hierarchyMap.Clear();
+            
             Array.Clear(itemsToIgnore, 0, MaxShowableCount);
 
             if (itemsToIgnore.Length != MaxShowableCount)
@@ -82,6 +85,8 @@ namespace Sparkling.SceneFinder
             Vector2 mousePosition = current.mousePosition;
             PickupWorldObject(mousePosition);
             PickupCanvasObject(mousePosition);
+
+            CalculateFamilyTree();
         }
 
         private static void PickupWorldObject(Vector2 point)
@@ -146,6 +151,32 @@ namespace Sparkling.SceneFinder
                             ReturnToPool(item);
                         }
                     }
+                }
+            }
+        }
+
+        private static void CalculateFamilyTree()
+        {
+            hierarchyMap.Clear();
+            foreach (var item in foundItems)
+            {
+                if (item.Item is GameObject go)
+                {
+                    if (!hierarchyMap.ContainsKey(go))
+                    {
+                        hierarchyMap.Add(go, item);
+                    }
+                }
+            }
+
+            foreach (var item in foundItems)
+            {
+                Transform t = item.GoTransform;
+                Transform parentTransform = t.parent;
+
+                if (parentTransform != null && hierarchyMap.TryGetValue(parentTransform.gameObject, out QueryableItem foundParent))
+                {
+                    item.SetParent(foundParent);
                 }
             }
         }

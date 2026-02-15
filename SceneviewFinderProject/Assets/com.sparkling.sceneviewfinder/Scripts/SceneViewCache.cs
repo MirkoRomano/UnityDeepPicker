@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,11 +11,13 @@ namespace Sparkling.SceneFinder
     {
         public static SimplePool<QueryableItem> QueryablePool;
         public static ScriptableFinderSettings Settings;
+        public static List<IFilterable> Filters;
 
         static SceneViewCache()
         {
             LoadSettiings();
             InstantiatePool();
+            LoadFilters();
         }
 
         public static void LoadSettiings()
@@ -49,6 +53,44 @@ namespace Sparkling.SceneFinder
             {
                 QueryablePool.Resize(Settings.MaxShowableItemCount);
             }
+        }
+
+        public static void LoadFilters()
+        {
+            if(Filters == null)
+            {
+                Filters = new List<IFilterable>();
+            }
+
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                string name = assembly.FullName;
+                if (name.StartsWith("System") || name.StartsWith("Unity") || name.StartsWith("mscorlib"))
+                    continue;
+
+                try
+                {
+                    var types = assembly.GetTypes();
+                    var filterableTypes = types.Where(t =>
+                        typeof(IFilterable).IsAssignableFrom(t) &&
+                        !t.IsInterface &&
+                        !t.IsAbstract
+                    );
+
+                    foreach (var type in filterableTypes)
+                    {
+                        if (Activator.CreateInstance(type) is IFilterable filter)
+                        {
+                            Filters.Add(filter);
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
+
+            Filters = Filters.OrderBy(f => f.FilterIndex).ThenByDescending(f => f.FilterKeyword.Length).ToList();
         }
     }
 }

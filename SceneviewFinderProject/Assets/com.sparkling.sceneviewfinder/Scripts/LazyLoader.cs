@@ -4,6 +4,11 @@ using UnityEditor;
 
 namespace Sparkling.SceneFinder
 {
+    public interface ILazyLoadable
+    {
+        void Load();
+    }
+
     public class LazyLoader
     {
         private readonly Queue<ILazyLoadable> m_loadQueue = new Queue<ILazyLoadable>();
