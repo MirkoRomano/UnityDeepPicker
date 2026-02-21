@@ -10,7 +10,7 @@ namespace Sparkling.SceneFinder
     [InitializeOnLoad]
     public static class SceneViewFinder
     {
-        private static int MaxShowableCount => SceneViewCache.Settings.MaxShowableItemCount;
+        private static int MaxShowableCount => DeepClickerCache.Settings.MaxShowableItemCount;
 
         private static GameObject[] itemsToIgnore = new GameObject[MaxShowableCount];
         private static HashSet<QueryableItem> foundItems = new HashSet<QueryableItem>();
@@ -35,7 +35,7 @@ namespace Sparkling.SceneFinder
             ClearCache();
             GetObjectInSceneView(e);
             PopupWindow.Show(new Rect(e.mousePosition, Vector2.zero),
-                             new SceneViewContextMenu(foundItems, null, ClearCache));
+                             new DeepClickerContextMenu(foundItems, null, ClearCache));
         }
 
         private static bool IsViewFinderEvent(Event e)
@@ -63,13 +63,13 @@ namespace Sparkling.SceneFinder
 
         private static QueryableItem PickupFromPool()
         {
-            return SceneViewCache.QueryablePool.Rent();
+            return DeepClickerCache.QueryablePool.Rent();
         }
 
         public static void ReturnToPool(QueryableItem item)
         {
             item.Free();
-            SceneViewCache.QueryablePool.Return(item);
+            DeepClickerCache.QueryablePool.Return(item);
         }
 
         public static void ReturnObjectsToPool(IEnumerable<QueryableItem> items)

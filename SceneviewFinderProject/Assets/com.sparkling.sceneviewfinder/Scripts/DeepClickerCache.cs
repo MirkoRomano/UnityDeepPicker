@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -7,39 +8,55 @@ using UnityEngine;
 namespace Sparkling.SceneFinder
 {
     [InitializeOnLoad]
-    public static class SceneViewCache
+    public static class DeepClickerCache
     {
+        private static string SaveDirectory => Path.GetDirectoryName(SavePath);
+        private static string SavePath => Path.Combine(Application.persistentDataPath, "SceneViewFinder", "Data.json");
         public static SimplePool<QueryableItem> QueryablePool;
-        public static ScriptableFinderSettings Settings;
+        public static DeepPickerSettings Settings = new DeepPickerSettings();
         public static List<IFilterable> Filters;
 
-        static SceneViewCache()
+        static DeepClickerCache()
         {
-            LoadSettiings();
+            LoadSettings();
             InstantiatePool();
             LoadFilters();
         }
 
-        public static void LoadSettiings()
+        public static void LoadSettings()
         {
-            string[] settingsGuid = AssetDatabase.FindAssets("ViewFinderSettings");
-
-            if (settingsGuid.Length > 1) 
+            if (!File.Exists(SavePath))
             {
-                Debug.LogWarning("More than one Scene view finder setting file has been found");
-                Debug.LogWarning("Please check in you project folder");
+                Settings = DeepPickerSettings.DEFAULT;
+                return;
             }
 
-            foreach (string guid in settingsGuid)
+            try
             {
-                var settingFile = AssetDatabase.LoadAssetByGUID<ScriptableFinderSettings>(new GUID(guid));
-
-                if (settingFile != null) 
-                {
-                    Settings = settingFile;
-                    break;
-                }
+                string json = File.ReadAllText(SavePath);
+                JsonUtility.FromJsonOverwrite(json, Settings);
             }
+            catch (Exception)
+            {
+                Settings = DeepPickerSettings.DEFAULT;
+            }
+        }
+
+        public static void SaveSettings(DeepPickerSettings settings)
+        {
+            if(settings == null)
+            {
+                return;
+            }
+
+            if (!Directory.Exists(SaveDirectory))
+            {
+                Directory.CreateDirectory(SaveDirectory);
+            }
+
+            string json = JsonUtility.ToJson(settings, true);
+            File.WriteAllText(SavePath, json);
+            JsonUtility.FromJsonOverwrite(json, Settings);
         }
 
         public static void InstantiatePool()
@@ -65,9 +82,6 @@ namespace Sparkling.SceneFinder
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 string name = assembly.FullName;
-                if (name.StartsWith("System") || name.StartsWith("Unity") || name.StartsWith("mscorlib"))
-                    continue;
-
                 try
                 {
                     var types = assembly.GetTypes();

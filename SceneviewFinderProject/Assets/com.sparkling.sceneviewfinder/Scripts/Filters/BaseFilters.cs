@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Sparkling.SceneFinder
 {
@@ -49,6 +50,23 @@ namespace Sparkling.SceneFinder
         public IEnumerable<QueryableItem> Filter(IFilterContext context)
         {
             return context.Objects.Where(o => o.HasTag(context.FilterWord));
+        }
+    }
+
+    public class LaerFilter : IFilterable
+    {
+        public string FilterKeyword => "lay:";
+        public uint FilterIndex => 3;
+
+        public bool Evaluate(IFilterContext context)
+        {
+            return context.SearchFilter.StartsWith(FilterKeyword, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public IEnumerable<QueryableItem> Filter(IFilterContext context)
+        {
+            LayerMask mask = LayerMask.GetMask(context.FilterWord);
+            return context.Objects.Where(o => o.As<GameObject>().layer == mask.value);
         }
     }
 

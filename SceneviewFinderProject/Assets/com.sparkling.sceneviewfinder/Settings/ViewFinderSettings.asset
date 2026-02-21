@@ -12,5 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f7ee4f2848438141a35dba7f112fb8a, type: 3}
   m_Name: ViewFinderSettings
   m_EditorClassIdentifier: 
-  WindowSize: {x: 200, y: 250}
-  MaxShowableItemCount: 100
+  WindowSize: {x: 200, y: 280}
+  MaxShowableItemCount: 50
+  HeaderBackgroundColor: {r: 0.16, g: 0.16, b: 0.16, a: 1}
+  HeaderTextColor: {r: 1, g: 1, b: 1, a: 1}
+  SearchbarTextColor: {r: 1, g: 1, b: 1, a: 1}
+  BodyBackgroundColor: {r: 0.18, g: 0.18, b: 0.18, a: 1}
+  RowBackgroundColor: {r: 0.22, g: 0.22, b: 0.22, a: 1}
+  OutlineColor: {r: 1, g: 0, b: 0, a: 1}
+  RowHoverColor: {r: 0.26, g: 0.26, b: 0.26, a: 1}
+  RowSelectedColor: {r: 0.24, g: 0.48, b: 0.9, a: 1}
+  RowTextColor: {r: 1, g: 1, b: 1, a: 1}

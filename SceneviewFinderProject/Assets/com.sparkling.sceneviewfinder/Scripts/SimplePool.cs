@@ -67,6 +67,13 @@ namespace Sparkling.SceneFinder
             return Activator.CreateInstance<T>();
         }
 
+        public void ReturnRange(IEnumerable<T> range)
+        {
+            foreach (T item in range)
+            {
+                Return(item);
+            }
+        }
 
         public void Return(T item)
         {
