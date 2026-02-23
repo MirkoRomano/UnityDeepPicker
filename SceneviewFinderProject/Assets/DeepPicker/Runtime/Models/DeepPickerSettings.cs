@@ -52,7 +52,7 @@ namespace Sparkling.SceneFinder
 
         public static DeepPickerSettings DEFAULT => new DeepPickerSettings()
         {
-            WindowSize = new Vector2(200, 250),
+            WindowSize = new Vector2(250, 250),
             MaxShowableItemCount = 50,
             HeaderBackgroundColor = new Color(0.16f, 0.16f, 0.16f),
             HeaderTextColor = Color.white,
