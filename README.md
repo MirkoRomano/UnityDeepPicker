@@ -45,26 +45,14 @@ Works seamlessly inside the Unity Scene View as a native popup window — no int
 
 ## 📦 Installation
 
-### Option 1 — Unity Package (Recommended)
-
-1. Go to **Releases**
+### Unity Package 
+1. Go to [Releases](https://github.com/MirkoRomano/UnityDeepPicker/releases/tag/Release_0.0.1)
 2. Download the latest `.unitypackage`
 3. Import it into your Unity project
 
 ---
 
-### Option 2 — Manual Installation
-
-Clone this repository inside your Unity project:
-
-```
-Assets/YourToolFolder
-```
-
----
-
 ## 🖱 How to Use
-
 1. Open any Scene in Unity.
 2. Hover your mouse over overlapping GameObjects or UI elements.
 3. Hold **Alt + Right-Click** in the Scene View.
@@ -73,11 +61,19 @@ Assets/YourToolFolder
 
 ---
 
-## 🛠 Advanced: Custom Filters
-
+## ������ Advanced: Custom Filters
 One of the most powerful features of Unity Deep Picker is its extensible filtering system.
+Deep Picker includes a powerful search bar that allows you to filter picked items similarly to Unity’s built-in Hierarchy search.
+Out of the box, you can filter by:
 
-By implementing the `IFilterable` interface, your custom logic will be automatically detected via reflection and integrated into the search engine.
+1. **Name** (default search)
+2. **Type** (`t:`)
+3. **Labels** (`l:`)
+4. **Tags** (`tag:`)
+5. **Layers** (`lay:`)
+
+But it doesn’t stop there.
+By implementing the `IFilterable` interface, your custom filtering logic will be automatically discovered via reflection and seamlessly integrated into the search engine.
 
 ### Example: Filter by Tag
 
@@ -117,13 +113,11 @@ Your filter will automatically become available in the search system.
 ---
 
 ## ⚙️ Configuration
-
 You can customize how Unity Deep Picker looks and behaves.
-
 Navigate to:
 
 ```
-Tools > Sparkling > SceneViewFinder
+Tools > Sparkling > Deep Picker Settings
 ```
 
 A live preview window will allow you to configure:
@@ -143,9 +137,7 @@ Click **Save** to apply your settings globally.
 ---
 
 ## 🚀 Why This Tool Exists
-
-Working with large Unity scenes can become slow and frustrating — especially when dealing with layered UI Canvases or dense 3D environments.
-
+Working with large Unity scenes can become slow and frustrating, especially when dealing with layered UI Canvases or dense 3D environments.
 Unity Deep Picker was built to:
 
 - Provide instant deep-picking functionality  
@@ -155,16 +147,13 @@ Unity Deep Picker was built to:
 
 ---
 
-## 🛠 Technical Details
-
-- Unity 2022.3+
-- C#
-- EditorWindow-based architecture
-- Reflection-driven extensible filtering system (`IFilterable`)
-- Custom pooling and lazy loading systems
+## 🛠 Editor versions
+The tool has been tested on the following unity versions:
+・ Unity 2019.4.41f2
+・ Unity 6000.3.0f1
+・ Unity 6000.0.45
 
 ---
 
 ## 📄 License
-
 MIT License
