@@ -1,9 +1,9 @@
 using UnityEngine;
 
-namespace Sparkling.SceneFinder
+namespace Sparkling.DeepClicker
 {
     [System.Serializable]
-    public class DeepPickerSettings
+    internal class DeepPickerSettings
     {
         public Vector2 WindowSize;
         public int MaxShowableItemCount;
@@ -21,12 +21,12 @@ namespace Sparkling.SceneFinder
         public Color RowSelectedColor;
         public Color RowTextColor;
 
-        public DeepPickerSettings()
+        internal DeepPickerSettings()
         {
 
         }
 
-        public DeepPickerSettings(DeepPickerSettings settings)
+        internal DeepPickerSettings(DeepPickerSettings settings)
         {
             Set(settings);
         }

@@ -4,9 +4,9 @@ using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Sparkling.SceneFinder
+namespace Sparkling.DeepClicker
 {
-    public class DeepPickerSettingsWindow : EditorWindow
+    internal class DeepPickerSettingsWindow : EditorWindow
     {
         private DeepPickerSettings settings;
         private SearchField searchField;

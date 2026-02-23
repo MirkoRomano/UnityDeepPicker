@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Sparkling.SceneFinder
+namespace Sparkling.DeepClicker
 {
     public enum UnityObjectType
     {

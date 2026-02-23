@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Sparkling.SceneFinder
+namespace Sparkling.DeepClicker
 {
-    public class ComponentFilter : IFilterable
+    internal class ComponentFilter : IFilterable
     {
         public string FilterKeyword => "t:";
         public uint FilterIndex => 0;
@@ -21,7 +21,7 @@ namespace Sparkling.SceneFinder
         }
     }
 
-    public class LabelFilter : IFilterable
+    internal class LabelFilter : IFilterable
     {
         public string FilterKeyword => "l:";
         public uint FilterIndex => 1;
@@ -37,7 +37,7 @@ namespace Sparkling.SceneFinder
         }
     }
 
-    public class TagFilter : IFilterable
+    internal class TagFilter : IFilterable
     {
         public string FilterKeyword => "tag:";
         public uint FilterIndex => 2;
@@ -53,7 +53,7 @@ namespace Sparkling.SceneFinder
         }
     }
 
-    public class LaerFilter : IFilterable
+    internal class LaerFilter : IFilterable
     {
         public string FilterKeyword => "lay:";
         public uint FilterIndex => 3;
@@ -74,7 +74,7 @@ namespace Sparkling.SceneFinder
         }
     }
 
-    public class NameFilter : IFilterable
+    internal class NameFilter : IFilterable
     {
         public string FilterKeyword => "";
         public uint FilterIndex => uint.MaxValue;

@@ -5,10 +5,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Sparkling.SceneFinder
+namespace Sparkling.DeepClicker
 {
     [InitializeOnLoad]
-    public static class SceneViewFinder
+    internal static class SceneViewFinder
     {
         private static int MaxShowableCount => DeepClickerCache.Settings.MaxShowableItemCount;
 

@@ -5,10 +5,10 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace Sparkling.SceneFinder
+namespace Sparkling.DeepClicker
 {
     [InitializeOnLoad]
-    public static class DeepClickerCache
+    internal static class DeepClickerCache
     {
         private static string SaveDirectory => Path.GetDirectoryName(SavePath);
         private static string SavePath => Path.Combine(Application.persistentDataPath, "SceneViewFinder", "Data.json");

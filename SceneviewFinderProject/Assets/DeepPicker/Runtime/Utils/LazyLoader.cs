@@ -2,14 +2,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEditor;
 
-namespace Sparkling.SceneFinder
+namespace Sparkling.DeepClicker
 {
     public interface ILazyLoadable
     {
         void Load();
     }
 
-    public class LazyLoader
+    internal class LazyLoader
     {
         private readonly Queue<ILazyLoadable> m_loadQueue = new Queue<ILazyLoadable>();
         private double m_maxMillisPerFrame = 5.0;

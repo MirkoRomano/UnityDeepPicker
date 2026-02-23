@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
 
-namespace Sparkling.SceneFinder
+namespace Sparkling.DeepClicker
 {
-    public class SimplePool<T> where T : class, new()
+    internal class SimplePool<T> where T : class, new()
     {
         private readonly Stack<T> _objects;
         private readonly int _maxSize;
 
         public int Count => _objects.Count;
 
-        public SimplePool(int maxSize)
+        internal SimplePool(int maxSize)
         {
             _maxSize = maxSize;
             _objects = new Stack<T>(maxSize);

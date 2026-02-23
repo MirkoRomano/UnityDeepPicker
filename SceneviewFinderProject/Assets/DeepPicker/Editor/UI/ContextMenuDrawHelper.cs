@@ -3,10 +3,9 @@ using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
-namespace Sparkling.SceneFinder
+namespace Sparkling.DeepClicker
 {
-
-    public static class ContextMenuDrawHelper
+    internal static class ContextMenuDrawHelper
     {
         public struct RowStyle
         {

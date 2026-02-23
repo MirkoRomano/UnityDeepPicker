@@ -5,9 +5,9 @@ using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
-namespace Sparkling.SceneFinder
+namespace Sparkling.DeepClicker
 {
-    public class DeepClickerContextMenu : PopupWindowContent, IFilterContext
+    internal class DeepClickerContextMenu : PopupWindowContent, IFilterContext
     {
         public IEnumerable<QueryableItem> Objects => objects;
         public IEnumerable<QueryableItem> FilteredObjects => filteredObjects;

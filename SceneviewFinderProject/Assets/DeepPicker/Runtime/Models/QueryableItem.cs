@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Sparkling.SceneFinder
+namespace Sparkling.DeepClicker
 {
     public sealed class QueryableItem : ILazyLoadable, IComparable<QueryableItem>
     {
