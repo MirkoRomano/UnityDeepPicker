@@ -8,7 +8,7 @@ using UnityEngine.UI;
 namespace Sparkling.DeepClicker
 {
     [InitializeOnLoad]
-    internal static class SceneViewFinder
+    internal static class SceneViewListener
     {
         private static int MaxShowableCount => DeepClickerCache.Settings.MaxShowableItemCount;
 
@@ -17,7 +17,7 @@ namespace Sparkling.DeepClicker
         private static List<RaycastResult> raycastResults = new List<RaycastResult>();
         private static Dictionary<GameObject, QueryableItem> hierarchyMap = new Dictionary<GameObject, QueryableItem>();
 
-        static SceneViewFinder()
+        static SceneViewListener()
         {
             SceneView.duringSceneGui += OnSceneGUI;
         }

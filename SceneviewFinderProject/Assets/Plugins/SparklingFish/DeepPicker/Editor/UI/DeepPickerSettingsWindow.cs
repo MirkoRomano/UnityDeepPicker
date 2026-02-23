@@ -19,12 +19,12 @@ namespace Sparkling.DeepClicker
         private Vector2 horizontalPos;
         private Vector2 verticalPos;
 
-        [MenuItem("Tools/Sparkling/SceneViewFinder")]
+        [MenuItem("Tools/Sparkling/Deep Picker Settings")]
         public static void Open()
         {
             var window = GetWindow<DeepPickerSettingsWindow>();
-            window.titleContent = new GUIContent("SceneView Finder");
-            window.minSize = new Vector2(550, 380);
+            window.titleContent = new GUIContent("Deep Picker");
+            window.minSize = new Vector2(600, 380);
         }
 
         private void OnEnable()
@@ -70,7 +70,7 @@ namespace Sparkling.DeepClicker
             horizontalPos = EditorGUILayout.BeginScrollView(horizontalPos);
 
             GUILayout.Space(6);
-            EditorGUILayout.LabelField("SceneView Finder Settings", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Deep Picker Settings", EditorStyles.boldLabel);
             GUILayout.Space(8);
 
             DrawSettingsFoldouts();
