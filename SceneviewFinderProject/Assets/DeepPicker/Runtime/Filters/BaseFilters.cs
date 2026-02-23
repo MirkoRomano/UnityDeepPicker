@@ -66,7 +66,11 @@ namespace Sparkling.SceneFinder
         public IEnumerable<QueryableItem> Filter(IFilterContext context)
         {
             LayerMask mask = LayerMask.GetMask(context.FilterWord);
-            return context.Objects.Where(o => o.As<GameObject>().layer == mask.value);
+            return context.Objects.Where(o =>
+            {
+                GameObject go = o.As<GameObject>();
+                return go != null && ((mask.value & (1 << go.layer)) != 0);
+            });
         }
     }
 
