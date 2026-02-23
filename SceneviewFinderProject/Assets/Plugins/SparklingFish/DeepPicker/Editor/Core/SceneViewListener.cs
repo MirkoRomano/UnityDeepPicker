@@ -93,6 +93,10 @@ namespace Sparkling.DeepClicker
         {
             GameObject picked = null;
 
+#if UNITY_2020_2_OR_NEWER
+            Array.Clear(itemsToIgnore, 0, itemsToIgnore.Length);
+#endif
+
             do
             {
                 if (foundItems.Count >= MaxShowableCount)
@@ -100,7 +104,22 @@ namespace Sparkling.DeepClicker
                     break;
                 }
 
+#if UNITY_2020_2_OR_NEWER
                 picked = HandleUtility.PickGameObject(point, false, itemsToIgnore);
+#else
+                GameObject[] ignoreArray = null;
+                if (foundItems.Count > 0)
+                {
+                    ignoreArray = new GameObject[foundItems.Count];
+                    int i = 0;
+                    foreach (var item in foundItems)
+                    {
+                        ignoreArray[i] = item.Item as GameObject;
+                        i++;
+                    }
+                }
+                picked = HandleUtility.PickGameObject(point, false, ignoreArray);
+#endif
 
                 if (picked != null)
                 {
@@ -124,8 +143,11 @@ namespace Sparkling.DeepClicker
         private static void PickupCanvasObject(Vector2 point)
         {
             Vector2 screenPos = HandleUtility.GUIPointToScreenPixelCoordinate(point);
+#if UNITY_2022_1_OR_NEWER
             var canvases = GameObject.FindObjectsByType<Canvas>(FindObjectsSortMode.None);
-
+#else
+            var canvases = GameObject.FindObjectsOfType<Canvas>();
+#endif
             PointerEventData pointerData = new PointerEventData(EventSystem.current) { position = screenPos };
             foreach (Canvas canvas in canvases)
             {

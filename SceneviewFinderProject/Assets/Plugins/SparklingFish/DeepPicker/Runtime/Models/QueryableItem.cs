@@ -153,7 +153,16 @@ namespace Sparkling.DeepClicker
 
         public bool NameContains(string name)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                return true;
+            }
+
+#if UNITY_2020_2_OR_NEWER
             return m_name.Contains(name, StringComparison.OrdinalIgnoreCase);
+#else
+            return m_name.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0;
+#endif
         }
 
         public override bool Equals(object obj)

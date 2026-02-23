@@ -53,7 +53,19 @@ namespace Sparkling.DeepClicker
             rootObjects = objs.Where(o => o.IsRoot);
             filteredObjects = objects;
             objectsCount = objs.Count();
+
+#if UNITY_2021_1_OR_NEWER
             expandedItems = objs.Where(o => o.Children.Count > 0).ToHashSet();
+#else
+            expandedItems = new HashSet<QueryableItem>();
+            foreach (var o in objs)
+            {
+                if (o.Children.Count > 0)
+                {
+                    expandedItems.Add(o);
+                }
+            }
+#endif
             searchFilter = string.Empty;
             lastSearchFilter = string.Empty;
 

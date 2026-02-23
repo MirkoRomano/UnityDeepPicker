@@ -20,20 +20,17 @@ namespace Sparkling.DeepClicker
     {
         public static UnityObjectType GetUnityType(this Object obj)
         {
-            return obj switch
-            {
-                null => UnityObjectType.Unknown,
-                GameObject => UnityObjectType.GameObject,
-                Component => UnityObjectType.Component,
-                Material => UnityObjectType.Material,
-                Texture => UnityObjectType.Texture,
-                AnimationClip => UnityObjectType.AnimationClip,
-                AudioClip => UnityObjectType.AudioClip,
-                Mesh => UnityObjectType.Mesh,
-                ScriptableObject => UnityObjectType.ScriptableObject,
-                Shader => UnityObjectType.Shader,
-                _ => UnityObjectType.Unknown
-            };
+            if (obj == null) return UnityObjectType.Unknown;
+            if (obj is GameObject) return UnityObjectType.GameObject;
+            if (obj is Component) return UnityObjectType.Component;
+            if (obj is Material) return UnityObjectType.Material;
+            if (obj is Texture) return UnityObjectType.Texture;
+            if (obj is AnimationClip) return UnityObjectType.AnimationClip;
+            if (obj is AudioClip) return UnityObjectType.AudioClip;
+            if (obj is Mesh) return UnityObjectType.Mesh;
+            if (obj is ScriptableObject) return UnityObjectType.ScriptableObject;
+            if (obj is Shader) return UnityObjectType.Shader;
+            return UnityObjectType.Unknown;
         }
     }
 }
