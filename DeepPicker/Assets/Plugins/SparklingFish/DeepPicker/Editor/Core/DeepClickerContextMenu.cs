@@ -193,11 +193,11 @@ namespace Sparkling.DeepClicker
             Rect viewRect = new Rect(
                 0,
                 0,
-                scrollRect.width - 16,
+                scrollRect.width,
                 contentHeight
             );
 
-            verticalPos = GUI.BeginScrollView(scrollRect, verticalPos, viewRect);
+            verticalPos = GUI.BeginScrollView(scrollRect, verticalPos, viewRect, GUIStyle.none, GUI.skin.verticalScrollbar);
 
             var rowStyle = new ContextMenuDrawHelper.RowStyle()
             {

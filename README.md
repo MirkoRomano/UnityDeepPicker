@@ -1,86 +1,64 @@
 # Unity Deep Picker
-A lightweight and high-performance Unity Editor tool that allows you to search, filter, and select overlapping GameObjects directly inside complex Scenes and UI Canvases.
-Designed to improve workflow efficiency when working with dense hierarchies, layered UI, or crowded 3D environments.
+
+![Unity Version](https://img.shields.io/badge/Unity-2019.4%20|%206000+-black?style=for-the-badge&logo=unity)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+
+**Unity Deep Picker** is a high-performance Editor extension designed for rapid identification and selection of overlapping GameObjects within complex scenes and UI Canvases. It eliminates the friction of navigating dense hierarchies by providing a streamlined picking workflow directly in the Scene View.
 
 ---
 
-## Features
+## Key Features
 
-### Precise GameObject Selection
-Quickly pick objects hidden behind others in both 2D/3D World Space and Canvas UI.
+### Precise Selection Logic
+Instantly identify occluded or nested objects in both 2D/3D World Space and Canvas UI. It bypasses the limitations of standard Editor clicking by raycasting through all layers under your cursor.
 
 ### High-Performance Architecture
-Built with:
-- A custom **SimplePool** to prevent unnecessary memory allocations  
-- A time-sliced **LazyLoader** to process complex hierarchies without freezing the Editor  
+Engineered for large-scale projects with a focus on resource efficiency:
+* **Zero-Alloc Pooling**: Utilizes a custom `SimplePool` to eliminate Garbage Collector overhead during picking operations.
+* **Time-Sliced Lazy Loading**: Processes complex metadata and components asynchronously via `LazyLoader` to ensure a stutter-free Editor experience even with hundreds of results.
+* **Legacy-Safe**: Specifically optimized to handle internal Unity API differences between versions (2019.4 vs 2022+).
 
-Smooth performance even in large scenes.
-
-### Smart Filtering System
-- Instantly search objects by name
-- Extend the search engine using custom filters via the `IFilterable` interface
-- Reflection-based auto-detection of custom filters
-
-### Fully Customizable UI
-Fine-tune every visual detail:
-- Popup size
-- Maximum scanned items
-- Background color
-- Hover state
-- Selected state
-- Outline color
-
-All configurable through a dedicated Settings Window.
-
-### Native Editor Integration
-Works seamlessly inside the Unity Scene View as a native popup window! 
-No intrusive UI or workflow changes.
-
----
-
-## Demo
-
-*(Add GIF or screenshots here for maximum impact)*
+### Extensible Search Engine
+A robust filtering system that supports both native and user-defined logic:
+* **Built-in Filters**: Search by Name (default), Type (`t:`), Labels (`l:`), Tags (`tag:`), and Layers (`lay:`).
+* **Reflection-Based Discovery**: Custom filters are automatically detected and integrated into the search engine at startup.
 
 ---
 
 ## Installation
 
-### Unity Package 
-1. Go to the latest [Releases](https://github.com/MirkoRomano/UnityDeepPicker/releases/tag/Release_0.0.1)
-2. Download the `.unitypackage`
-3. Import it into your Unity project
+### Unity Package (Recommended)
+1. Download the latest `.unitypackage` from the [Releases](../../releases) page.
+2. Import the package into your project via `Assets > Import Package > Custom Package`.
+
+### Manual Installation
+Clone this repository or copy the contents into your project's `Assets/Plugins/DeepPicker` folder.
 
 ---
 
-## 🖱 How to Use
-1. Open any Scene in Unity.
-2. Hover your mouse over overlapping GameObjects or UI elements.
-3. Hold **Alt + Right-Click** in the Scene View.
-4. A popup will appear listing all objects directly under your cursor, preserving hierarchy order.
-5. Click an item to instantly select and ping it in the Hierarchy.
+## How to Use
+1.  **Hover** the cursor over overlapping elements in the **Scene View**.
+2.  Press **`Alt` + `Right-Click`**.
+3.  A popup menu will appear listing all objects under the cursor, maintaining their hierarchical order.
+4.  **Type** in the search bar to filter results or **Click** an item to instantly select it in the **Hierarchy** and **Inspector**.
+
+---
+
+## Configuration
+
+Access the settings panel via:  
+`Tools > Sparkling > Deep Picker Settings`
+
+The dedicated settings window provides a live preview for:
+* **Scanning Parameters**: Adjust popup dimensions and the maximum number of detectable items.
+* **Visual Identity**: Full control over colors for headers, search bars, hover/selection states, and outlines to match your preferred Editor theme.
 
 ---
 
 ## Advanced: Custom Filters
-One of the most powerful features of Unity Deep Picker is its extensible filtering system.
-Deep Picker includes a powerful search bar that allows you to filter picked items similarly to Unity’s built-in Hierarchy search.
-Out of the box, you can already filter by:
+You can extend the search capabilities by implementing the `IFilterable` interface. The tool automatically integrates any new implementation found in the assembly.
 
-1. **Name** (default search)
-2. **Type** (`t:`)
-3. **Labels** (`l:`)
-4. **Tags** (`tag:`)
-5. **Layers** (`lay:`)
-
-But it doesn’t stop there.
-By implementing the `IFilterable` interface, your custom filtering logic will be automatically discovered via reflection and seamlessly integrated into the search engine.
-
-### Example: Filter by Tag
-
-It's easy! You only need to create a class, inherit `IFilterable`!
-Here an example for filtering objects by tag.
-
+### Example: Tag Filter
 ```csharp
 public class TagFilter : IFilterable
 {
@@ -100,53 +78,20 @@ public class TagFilter : IFilterable
 }
 ```
 
-Your filter will automatically become available in the search system.
+## Technical Specifications
 
----
+### Compatibility
+Validated across the following Unity versions:
+- Unity 2019.4 LTS (Legacy API & C# 7.3 Compatibility)
+- Unity 2022.3 LTS
+- Unity 6 (6000.x)
 
-## Configuration
-You can customize how Unity Deep Picker looks and behaves.
-Navigate to:
+### Core Components
+Component	Responsibility
+SceneViewFinder	Core logic for 2D/3D/UI raycasting and input handling.
+DeepClickerContextMenu	Manages the PopupWindow UI and search logic.
+LazyLoader	Handles time-sliced metadata processing.
+SimplePool	Generic object pool for QueryableItem reuse.
 
-```
-Tools > Sparkling > Deep Picker Settings
-```
-
-A live preview window will allow you to configure:
-
-### Window Settings
-- Default popup size  
-- Maximum number of scanned items  
-
-### Colors
-- Header  
-- Search bar  
-- Row hover/selection  
-- Popup outline  
-
-Click **Save** to apply your settings globally.
-
----
-
-## Why This Tool Exists
-Working with large Unity scenes can become slow and frustrating, espacially with layered GUI or dense 3D environments.
-You end up clicking tens times only for being able to select a button, ins't it?
-
-Unity Deep Picker was built to:
-- Provide instant deep-picking functionality  
-- Improve hierarchy navigation  
-- Reduce friction when selecting overlapping objects  
-- Maintain high performance with minimal memory overhead  
-
----
-
-## Editor versions
-The tool has been tested on the following unity versions:
-・ Unity 2019.4.41f2
-・ Unity 6000.3.0f1
-・ Unity 6000.0.45
-
----
-
-## License
-MIT License
+### License
+This project is licensed under the MIT License - see the LICENSE file for details.

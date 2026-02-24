@@ -33,7 +33,7 @@ namespace Sparkling.DeepClicker
             Event.current.Use();
 
             ClearCache();
-            GetObjectInSceneView(e);
+            GetObjectInSceneView(e.mousePosition);
             PopupWindow.Show(new Rect(e.mousePosition, Vector2.zero),
                              new DeepClickerContextMenu(foundItems, null, ClearCache));
         }
@@ -42,7 +42,7 @@ namespace Sparkling.DeepClicker
         {
             return e.type == EventType.MouseDown
                 && e.button == 1
-                && e.alt;
+                && e.control;
         }
 
         private static void ClearCache()
@@ -80,9 +80,8 @@ namespace Sparkling.DeepClicker
             }
         }
 
-        private static void GetObjectInSceneView(Event current)
+        private static void GetObjectInSceneView(Vector2 mousePosition)
         {
-            Vector2 mousePosition = current.mousePosition;
             PickupWorldObject(mousePosition);
             PickupCanvasObject(mousePosition);
 

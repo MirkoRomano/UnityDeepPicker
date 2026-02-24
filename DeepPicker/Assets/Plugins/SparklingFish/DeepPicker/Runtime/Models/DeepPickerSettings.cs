@@ -52,7 +52,7 @@ namespace Sparkling.DeepClicker
 
         public static DeepPickerSettings DEFAULT => new DeepPickerSettings()
         {
-            WindowSize = new Vector2(250, 250),
+            WindowSize = new Vector2(250, 200),
             MaxShowableItemCount = 50,
             HeaderBackgroundColor = new Color(0.16f, 0.16f, 0.16f, 1f),
             HeaderTextColor = Color.white,
