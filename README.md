@@ -1,3 +1,7 @@
+vorrei che tu migliorassi il seguente readme.md per il mio progetto github, rendendolo piu piacevole alla vista e il piu professionale possibile.
+
+Vorrei inoltre evitardi di aggiungere emoji/emoticon inutili e creassi un look estremamente professionale.
+
 # Unity Deep Picker
 A lightweight and high-performance Unity Editor tool that allows you to search, filter, and select overlapping GameObjects directly inside complex Scenes and UI Canvases.
 Designed to improve workflow efficiency when working with dense hierarchies, layered UI, or crowded 3D environments.
