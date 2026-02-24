@@ -38,7 +38,7 @@ Clone this repository or copy the contents into your project's `Assets/Plugins/D
 
 ## How to Use
 1.  **Hover** the cursor over overlapping elements in the **Scene View**.
-2.  Press **`Alt` + `Right-Click`**.
+2.  Press **`Ctrl` + `Right-Click`**.
 3.  A popup menu will appear listing all objects under the cursor, maintaining their hierarchical order.
 4.  **Type** in the search bar to filter results or **Click** an item to instantly select it in the **Hierarchy** and **Inspector**.
 
