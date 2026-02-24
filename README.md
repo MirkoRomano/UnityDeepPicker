@@ -4,6 +4,8 @@
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
 **Unity Deep Picker** is a high-performance Editor extension designed for rapid identification and selection of overlapping GameObjects within complex scenes and UI Canvases. It eliminates the friction of navigating dense hierarchies by providing a streamlined picking workflow directly in the Scene View.
+
+<img width="403" height="313" alt="image" src="https://github.com/user-attachments/assets/fd691851-868d-4f9d-a581-708149de2c9e" />
 ---
 
 ## Key Features
