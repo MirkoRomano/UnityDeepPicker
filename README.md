@@ -43,6 +43,8 @@ Clone this repository or copy the contents into your project's `Assets/Plugins/D
 3.  A popup menu will appear listing all objects under the cursor, maintaining their hierarchical order.
 4.  **Type** in the search bar to filter results or **Click** an item to instantly select it in the **Hierarchy** and **Inspector**.
 
+![Click](https://github.com/user-attachments/assets/e1b8b33d-6310-4ac8-8027-0180e45e89e5)
+
 ---
 
 ## Configuration
@@ -58,6 +60,8 @@ The dedicated settings window provides a live preview for:
 
 ## Advanced: Custom Filters
 You can extend the search capabilities by implementing the `IFilterable` interface. The tool automatically integrates any new implementation found in the assembly.
+
+![Filter](https://github.com/user-attachments/assets/67775bd4-a008-474e-91de-7c496709f15c)
 
 ### Example: Tag Filter
 ```csharp
