@@ -187,7 +187,16 @@ namespace Sparkling.DeepClicker
                 scrollHeight
             );
 
-            int visibleRows = CountVisibleRows();
+            int visibleRows = 0;
+            if (string.IsNullOrEmpty(searchFilter))
+            {
+                visibleRows = CountVisibleRows();
+            }
+            else
+            {
+                visibleRows = filteredObjectsCount;
+            }
+
             float contentHeight = visibleRows * ContextMenuDrawHelper.LINE_HEIGHT;
 
             Rect viewRect = new Rect(
@@ -251,6 +260,15 @@ namespace Sparkling.DeepClicker
         {
             Selection.activeGameObject = obj as GameObject;
             EditorGUIUtility.PingObject(obj);
+
+            //Wait the end of the frame and close the window
+            EditorApplication.delayCall += () =>
+            {
+                if(editorWindow != null)
+                {
+                    editorWindow.Close();
+                }
+            };
         }
 
         /// <summary>

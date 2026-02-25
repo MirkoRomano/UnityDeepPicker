@@ -53,7 +53,7 @@ namespace Sparkling.DeepClicker
             raycastResults.Clear();
             hierarchyMap.Clear();
             
-            Array.Clear(itemsToIgnore, 0, MaxShowableCount);
+            Array.Clear(itemsToIgnore, 0, itemsToIgnore.Length);
 
             if (itemsToIgnore.Length != MaxShowableCount)
             {

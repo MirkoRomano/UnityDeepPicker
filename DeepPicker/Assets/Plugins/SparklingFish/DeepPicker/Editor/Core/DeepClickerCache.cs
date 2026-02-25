@@ -18,6 +18,11 @@ namespace Sparkling.DeepClicker
 
         static DeepClickerCache()
         {
+            Initialize();
+        }
+
+        private static void Initialize()
+        {
             LoadSettings();
             InstantiatePool();
             LoadFilters();
@@ -56,7 +61,7 @@ namespace Sparkling.DeepClicker
 
             string json = JsonUtility.ToJson(settings, true);
             File.WriteAllText(SavePath, json);
-            JsonUtility.FromJsonOverwrite(json, Settings);
+            Initialize();
         }
 
         public static void InstantiatePool()
