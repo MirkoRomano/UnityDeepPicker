@@ -11,7 +11,6 @@ namespace Sparkling.DeepClicker
     internal static class SceneViewListener
     {
         private static int MaxShowableCount => DeepClickerCache.Settings.MaxShowableItemCount;
-
         private static GameObject[] itemsToIgnore = new GameObject[MaxShowableCount];
         private static HashSet<QueryableItem> foundItems = new HashSet<QueryableItem>();
         private static List<RaycastResult> raycastResults = new List<RaycastResult>();
@@ -52,7 +51,7 @@ namespace Sparkling.DeepClicker
             foundItems.Clear();
             raycastResults.Clear();
             hierarchyMap.Clear();
-            
+
             Array.Clear(itemsToIgnore, 0, itemsToIgnore.Length);
 
             if (itemsToIgnore.Length != MaxShowableCount)
@@ -141,36 +140,51 @@ namespace Sparkling.DeepClicker
 
         private static void PickupCanvasObject(Vector2 point)
         {
-            Vector2 screenPos = HandleUtility.GUIPointToScreenPixelCoordinate(point);
+            Camera sceneCamera = SceneView.currentDrawingSceneView.camera;
+            Vector2 screenPoint = AdjustToSceneView(point);
+
 #if UNITY_2022_1_OR_NEWER
             var canvases = GameObject.FindObjectsByType<Canvas>(FindObjectsSortMode.None);
 #else
             var canvases = GameObject.FindObjectsOfType<Canvas>();
 #endif
-            PointerEventData pointerData = new PointerEventData(EventSystem.current) { position = screenPos };
+
             foreach (Canvas canvas in canvases)
             {
-                if (foundItems.Count >= MaxShowableCount) break;
-
-                if (canvas.TryGetComponent(out GraphicRaycaster raycaster))
+                if (foundItems.Count >= MaxShowableCount)
                 {
-                    raycastResults.Clear();
-                    raycaster.Raycast(pointerData, raycastResults);
+                    break;
+                }
 
-                    foreach (var result in raycastResults)
+                if (!RectTransformUtility.RectangleContainsScreenPoint(canvas.GetComponent<RectTransform>(), 
+                                                                       screenPoint, 
+                                                                       sceneCamera))
+                {
+                    continue;
+                }
+
+                foreach (Graphic graphic in canvas.GetComponentsInChildren<Graphic>(false))
+                {
+                    if (foundItems.Count >= MaxShowableCount)
                     {
-                        if (foundItems.Count >= MaxShowableCount)
-                        {
-                            break;
-                        }
+                        break;
+                    }
 
-                        QueryableItem item = PickupFromPool();
-                        item.Initialize(result.gameObject);
+                    if (!graphic.enabled || !graphic.gameObject.activeInHierarchy)
+                    {
+                        continue;
+                    }
 
-                        if (!foundItems.Add(item))
-                        {
-                            ReturnToPool(item);
-                        }
+                    if (!RectTransformUtility.RectangleContainsScreenPoint(graphic.rectTransform, screenPoint, sceneCamera))
+                    {
+                        continue;
+                    }
+
+                    QueryableItem item = PickupFromPool();
+                    item.Initialize(graphic.gameObject);
+                    if (!foundItems.Add(item))
+                    {
+                        ReturnToPool(item);
                     }
                 }
             }
@@ -200,6 +214,15 @@ namespace Sparkling.DeepClicker
                     item.SetParent(foundParent);
                 }
             }
+        }
+
+        private static Vector2 AdjustToSceneView(Vector2 point)
+        {
+            float pixelScale = EditorGUIUtility.pixelsPerPoint;
+            return new Vector2(
+                point.x * EditorGUIUtility.pixelsPerPoint,
+                SceneView.currentDrawingSceneView.camera.pixelHeight - (point.y * pixelScale)
+            );
         }
 
     }
