@@ -6,7 +6,6 @@
 **Unity Deep Picker** is a high-performance Editor extension designed for rapid identification and selection of overlapping GameObjects within complex scenes and UI Canvases. It eliminates the friction of navigating dense hierarchies by providing a streamlined picking workflow directly in the Scene View.
 
 <img width="403" height="313" alt="image" src="https://github.com/user-attachments/assets/fd691851-868d-4f9d-a581-708149de2c9e" />
----
 
 ## Key Features
 
@@ -91,12 +90,6 @@ Validated across the following Unity versions:
 - Unity 2022.3 LTS
 - Unity 6 (6000.x)
 
-### Core Components
-Component	Responsibility
-SceneViewFinder	Core logic for 2D/3D/UI raycasting and input handling.
-DeepClickerContextMenu	Manages the PopupWindow UI and search logic.
-LazyLoader	Handles time-sliced metadata processing.
-SimplePool	Generic object pool for QueryableItem reuse.
 
 ### License
 This project is licensed under the MIT License - see the LICENSE file for details.
