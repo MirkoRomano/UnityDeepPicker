@@ -53,7 +53,7 @@ namespace Sparkling.DeepClicker
         }
     }
 
-    internal class LaerFilter : IFilterable
+    internal class LayerFilter : IFilterable
     {
         public string FilterKeyword => "lay:";
         public uint FilterIndex => 3;
