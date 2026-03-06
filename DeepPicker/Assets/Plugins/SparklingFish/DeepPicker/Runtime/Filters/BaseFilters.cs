@@ -55,6 +55,8 @@ namespace Sparkling.DeepClicker
 
     internal class LayerFilter : IFilterable
     {
+        const int MIN_LAYER_INDEX = 0;
+        const int MAX_LAYER_INDEX = sizeof(int) * 8;
         public string FilterKeyword => "lay:";
         public uint FilterIndex => 3;
 
@@ -65,12 +67,18 @@ namespace Sparkling.DeepClicker
 
         public IEnumerable<QueryableItem> Filter(IFilterContext context)
         {
-            LayerMask mask = LayerMask.GetMask(context.FilterWord);
-            return context.Objects.Where(o =>
+            if(!int.TryParse(context.FilterWord, out int layerIndex))
             {
-                GameObject go = o.As<GameObject>();
-                return go != null && ((mask.value & (1 << go.layer)) != 0);
-            });
+                layerIndex = LayerMask.NameToLayer(context.FilterWord);
+            }
+
+            if(layerIndex < MIN_LAYER_INDEX || layerIndex > MAX_LAYER_INDEX)
+            {
+                return Enumerable.Empty<QueryableItem>();
+            }
+
+            int layerMask = 1 << layerIndex;
+            return context.Objects.Where(o => o.HasLayerMask(layerMask));
         }
     }
 

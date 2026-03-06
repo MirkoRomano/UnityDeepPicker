@@ -151,6 +151,16 @@ namespace Sparkling.DeepClicker
             return string.Equals(m_tag, tag, StringComparison.OrdinalIgnoreCase);
         }
 
+        public bool HasLayerMask(int layerMask)
+        {
+            if(m_item is GameObject go)
+            {
+                return (layerMask & (1 << go.layer)) != 0;
+            }
+
+            return false;
+        }
+
         public bool NameContains(string name)
         {
             if (string.IsNullOrEmpty(name))
